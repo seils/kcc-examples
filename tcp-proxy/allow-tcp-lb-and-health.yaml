@@ -27,6 +27,6 @@ spec:
   - 130.211.0.0/22
   - 35.191.0.0/16
   networkRef:
-    external: "vpc-1" # Assumes an existing VPC named 'vpc-1'
+    external: "default"
   targetTags:
-  - "gke-us-east4-cluster-1-1acacd68-node"
+  - "gke-cnrm-dev-195b5196-node"

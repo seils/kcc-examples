@@ -13,24 +13,20 @@
 # limitations under the License.
 
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
-kind: ComputeBackendService
+kind: ComputeFirewall
 metadata:
-  name: my-tcp-lb
+  labels:
+    label-one: "value-one"
+  name: tcp-proxy-neg-firewall
 spec:
-  timeoutSec: 30
-  healthChecks:
-  - healthCheckRef:
-      name: my-tcp-health-check
-  loadBalancingScheme: EXTERNAL
-  location: global
-  protocol: TCP
-  logConfig:
-    enable: true
-    sampleRate: 0.5
-  backend:
-  - balancingMode: CONNECTION
-    group:
-      networkEndpointGroupRef:
-              external: /projects/zachseils-cnrm/zones/us-east4-a/networkEndpointGroups/k8s1-eb77442c-default-bottle-web-svc-9092-025cdd68
-    capacityScaler: 1
-    maxConnectionsPerEndpoint: 5
+  allow:
+    - protocol: tcp
+      ports:
+       - "9092"
+  sourceRanges:
+  - 130.211.0.0/22
+  - 35.191.0.0/16
+  networkRef:
+    external: "default"
+  targetTags:
+  - "CLUSTER_NETWORK_TAG"

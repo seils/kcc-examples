@@ -24,5 +24,7 @@ spec:
       name: my-tcp-lb-target-proxy
   portRange: "9092"
   ipProtocol: "TCP"
-  ipVersion: "IPV4"
+  ipAddress:
+    addressRef:
+      name: tcp-lb-static-ipv4
   location: global

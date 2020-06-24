@@ -15,12 +15,12 @@
 apiVersion: compute.cnrm.cloud.google.com/v1beta1
 kind: ComputeBackendService
 metadata:
-  name: my-tcp-lb
+  name: tcp-proxy-neg-backend-service
 spec:
   timeoutSec: 30
   healthChecks:
   - healthCheckRef:
-      name: my-tcp-health-check
+      name: tcp-proxy-neg-health-check
   loadBalancingScheme: EXTERNAL
   location: global
   protocol: TCP
@@ -28,9 +28,3 @@ spec:
     enable: true
     sampleRate: 0.5
   backend:
-  - balancingMode: CONNECTION
-    group:
-      networkEndpointGroupRef:
-              external: /projects/zachseils-cnrm/zones/us-east4-a/networkEndpointGroups/k8s1-eb77442c-default-bottle-web-svc-9092-025cdd68
-    capacityScaler: 1
-    maxConnectionsPerEndpoint: 5

@@ -5,7 +5,7 @@ This shows an example of using:
 
 ### Prerquisites
 - Create a VPC-native cluster
-- Install (Kubernetes Config Connector[https://cloud.google.com/config-connector/docs/how-to/install-upgrade-uninstall]
+- Install [Kubernetes Config Connector](https://cloud.google.com/config-connector/docs/how-to/install-upgrade-uninstall)
 - Create a Deployment of your workload
 
 
@@ -15,7 +15,7 @@ export CLUSTER_NAME="us-east4-cluster-1" # change to the name of your GKE cluste
 export CLUSTER_NETWORK_TAG=$(gcloud compute instances describe $(gcloud compute instances list --filter=name~$CLUSTER_NAME --format="value(name)" | head -n 1) --format="value(tags.items)")
 ```
 
-### Create a Service with NEGs annotation
+### Expose your workload deployment annotated for NEGs
 ```
 apiVersion: v1
 kind: Service
@@ -60,6 +60,7 @@ cat <<EOF | tee -a tcp-proxy-neg-backend-service.yaml
 EOF
  done
 ```
+
 ```
 kubectl apply -f tcp-proxy-neg-backend-service.yaml
 ```

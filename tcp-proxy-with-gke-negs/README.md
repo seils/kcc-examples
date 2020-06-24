@@ -3,7 +3,7 @@ This shows an example of using:
 - Google Cloud TCP Proxy Load Balancing
 - Kubernetes Config Connector
 
-### Prerquisites
+### Prerequisite
 - Create a VPC-native cluster
 - Install [Kubernetes Config Connector](https://cloud.google.com/config-connector/docs/how-to/install-upgrade-uninstall)
 - Create a Deployment of your workload
@@ -17,6 +17,7 @@ export CLUSTER_NETWORK_TAG=$(gcloud compute instances describe $(gcloud compute 
 
 ### Expose your workload deployment annotated for NEGs
 ```
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
@@ -30,6 +31,7 @@ spec:
   ports:
   - port: 9092
     protocol: TCP
+EOF
 ```
 
 ### Create VPC firewall rule
@@ -37,14 +39,9 @@ spec:
 sed -e "s/CLUSTER_NETWORK_TAG/$CLUSTER_NETWORK_TAG/g" tcp-proxy-neg-firewall.yaml | kubectl apply -f -
 ```
 
-### Create static external IP address
+### Create static external IP address and health check
 ```
-kubectl apply -f tcp-proxy-neg-ip.yaml
-```
-
-### Create health check
-```
-kubectl apply -f tcp-proxy-neg-health-check.yaml
+kubectl apply -f ./tcp-proxy-neg-ip.yaml -f ./tcp-proxy-neg-health-check.yaml
 ```
 
 ### Create backend service
@@ -59,18 +56,12 @@ cat <<EOF | tee -a tcp-proxy-neg-backend-service.yaml
     maxConnectionsPerEndpoint: 5
 EOF
  done
-```
 
-```
 kubectl apply -f tcp-proxy-neg-backend-service.yaml
 ```
 
-### Create Target TCP Proxy
+### Create Target TCP Proxy and forwarding rule
 ```
-kubectl apply -f tcp-proxy-neg-target-proxy.yaml
+kubectl apply -f ./tcp-proxy-neg-target-proxy.yaml -f ./tcp-proxy-neg-forwarding-rule.yaml
 ```
 
-### Create forwarding rule
-```
-kubectl apply -f tcp-proxy-neg-forwarding-rule.yaml
-```

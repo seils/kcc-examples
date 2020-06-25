@@ -5,7 +5,7 @@ This shows an example of using:
 
 ### Prerequisite
 - Create a VPC-native cluster
-- Install [Kubernetes Config Connector](https://cloud.google.com/config-connector/docs/how-to/install-upgrade-uninstall)
+- Install [Kubernetes Config Connector](https://cloud.google.com/config-connector/docs/how-to/install-upgrade-uninstall) version 1.13.0 or later
 - Create a Deployment of your workload
 
 
